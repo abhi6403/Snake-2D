@@ -6,9 +6,12 @@ public class SnakeController : MonoBehaviour
 {
     private Vector2 direction = Vector2.right;
 
+    public BoxCollider2D spawnArea;
+
     private void Update()
     {
         SnakeMovement();
+        WrapSnakeInBounds();
     }
 
     private void FixedUpdate()
@@ -43,5 +46,32 @@ public class SnakeController : MonoBehaviour
            Mathf.Round(this.transform.position.y) + direction.y,
            0.0f
            );
+    }
+
+    protected void WrapSnakeInBounds()
+    {
+        Bounds bounds = spawnArea.bounds;
+
+        Vector3 snakeHeadPosition = this.transform.position;
+
+        if (snakeHeadPosition.x > bounds.max.x)
+        {
+            snakeHeadPosition.x = bounds.min.x;
+        }
+        else if (snakeHeadPosition.x < bounds.min.x)
+        {
+            snakeHeadPosition.x = bounds.max.x;
+        }
+
+        if (snakeHeadPosition.y > bounds.max.y)
+        {
+            snakeHeadPosition.y = bounds.min.y;
+        }
+        else if (snakeHeadPosition.y < bounds.min.y)
+        {
+            snakeHeadPosition.y = bounds.max.y;
+        }
+
+        this.transform.position = snakeHeadPosition;
     }
 }

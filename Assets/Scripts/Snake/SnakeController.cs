@@ -79,4 +79,12 @@ public class SnakeController : MonoBehaviour
         this.transform.position = snakeHeadPosition;
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Food"))
+        {
+            Destroy(other.gameObject);
+        }
+    }
+
 }

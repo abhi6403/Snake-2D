@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
-    private Vector2 moveDirection = Vector2.right; 
+    private Vector2 moveDirection = Vector2.right;
+    private List<Transform> snakeMovePositionList;
 
+    public Transform snakeBody;
     public BoxCollider2D spawnArea;
 
+    public void Start()
+    {
+        snakeMovePositionList = new List<Transform>();
+        snakeMovePositionList.Add(this.transform);
+    }
     private void Update()
     {
         SnakeMovement();
@@ -17,6 +24,16 @@ public class SnakeController : MonoBehaviour
     {
        SnakePosition();
        WrapSnakeInBounds();
+
+        for (int i = snakeMovePositionList.Count - 1; i > 0; i--)
+        {
+            snakeMovePositionList[i].position = snakeMovePositionList[i - 1].position;
+        }
+
+        this.transform.position = new Vector3(
+        Mathf.Round(this.transform.position.x) + moveDirection.x,
+        Mathf.Round(this.transform.position.y) + moveDirection.y,
+        0.0f);
     }
 
     private void SnakeMovement()
@@ -84,7 +101,16 @@ public class SnakeController : MonoBehaviour
         if(other.gameObject.CompareTag("Food"))
         {
             Destroy(other.gameObject);
+            GrowSnakeSize(1);
         }
     }
 
+    private void GrowSnakeSize(int length)
+    {
+        for(int i=0; i<length; i++)
+        {
+            Transform newSnakeBody = Instantiate(this.snakeBody, new Vector3(-100f, -100f, 0), new Quaternion(0f, 0f, 0f, 0f));
+            snakeMovePositionList.Add(newSnakeBody);
+        }
+    }
 }

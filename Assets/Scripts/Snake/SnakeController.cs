@@ -4,46 +4,50 @@ using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
-    private Vector2 direction = Vector2.right;
+    private Vector2 moveDirection = Vector2.right; 
 
     public BoxCollider2D spawnArea;
 
     private void Update()
     {
         SnakeMovement();
-        WrapSnakeInBounds();
     }
 
     private void FixedUpdate()
     {
        SnakePosition();
+       WrapSnakeInBounds();
     }
 
     private void SnakeMovement()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && direction != Vector2.down)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && moveDirection != Vector2.down)
         {
-            direction = Vector2.up;
+            moveDirection = Vector2.up;
+            transform.eulerAngles = new Vector3(0, 0, 90);
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) && direction != Vector2.up)
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && moveDirection != Vector2.up)
         {
-            direction = Vector2.down;
+            moveDirection = Vector2.down;
+            transform.eulerAngles = new Vector3(0, 0, -90);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) && direction != Vector2.right)
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) && moveDirection != Vector2.right)
         {
-            direction = Vector2.left;
+            moveDirection = Vector2.left;
+            transform.eulerAngles = new Vector3(0, 0, 180);
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && direction != Vector2.left)
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && moveDirection != Vector2.left)
         {
-            direction = Vector2.right;
+            moveDirection = Vector2.right;
+            transform.eulerAngles = new Vector3(0, 0, 0);
         }
     }
 
     private void SnakePosition()
     {
         this.transform.position = new Vector3(
-           Mathf.Round(this.transform.position.x) + direction.x,
-           Mathf.Round(this.transform.position.y) + direction.y,
+           Mathf.Round(this.transform.position.x) + moveDirection.x,
+           Mathf.Round(this.transform.position.y) + moveDirection.y,
            0.0f
            );
     }
@@ -74,4 +78,5 @@ public class SnakeController : MonoBehaviour
 
         this.transform.position = snakeHeadPosition;
     }
+
 }

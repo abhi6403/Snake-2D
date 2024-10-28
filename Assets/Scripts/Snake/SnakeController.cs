@@ -1,39 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
     private Vector2 moveDirection = Vector2.right;
-    private List<Transform> snakeMovePositionList;
+    private Vector2 lastHeadPosition;
+    private List<Transform> snakeBodyList;
 
     public Transform snakeBody;
     public BoxCollider2D spawnArea;
+    public float bodyPartSpacing = 0.5f;
+
+    private bool hasEaten = false;
 
     public void Start()
     {
-        snakeMovePositionList = new List<Transform>();
-        snakeMovePositionList.Add(this.transform);
+        snakeBodyList = new List<Transform>();
+        snakeBodyList.Add(this.transform);
+        lastHeadPosition = transform.position;
     }
     private void Update()
     {
         SnakeMovement();
+
+        if(Vector2.Distance(lastHeadPosition, transform.position) > 0.1f)
+        {
+            hasEaten = false;
+            lastHeadPosition = transform.position;
+        }
     }
 
     private void FixedUpdate()
     {
+       lastHeadPosition = transform.position;
        SnakePosition();
        WrapSnakeInBounds();
-
-        for (int i = snakeMovePositionList.Count - 1; i > 0; i--)
-        {
-            snakeMovePositionList[i].position = snakeMovePositionList[i - 1].position;
-        }
-
-        this.transform.position = new Vector3(
-        Mathf.Round(this.transform.position.x) + moveDirection.x,
-        Mathf.Round(this.transform.position.y) + moveDirection.y,
-        0.0f);
+        
     }
 
     private void SnakeMovement()
@@ -62,11 +66,14 @@ public class SnakeController : MonoBehaviour
 
     private void SnakePosition()
     {
-        this.transform.position = new Vector3(
-           Mathf.Round(this.transform.position.x) + moveDirection.x,
-           Mathf.Round(this.transform.position.y) + moveDirection.y,
-           0.0f
-           );
+        //body movement
+        for(int i = snakeBodyList.Count - 1; i > 0; i--)
+        {
+            snakeBodyList[i].position = snakeBodyList[i - 1].position;
+        }
+
+        //head movement
+        transform.position += (Vector3)moveDirection;
     }
 
     protected void WrapSnakeInBounds()
@@ -98,19 +105,19 @@ public class SnakeController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.CompareTag("Food"))
+        if(other.gameObject.CompareTag("Food") && !hasEaten)
         {
+            hasEaten = true;
             Destroy(other.gameObject);
-            GrowSnakeSize(1);
+            GrowSnakeBody();
         }
     }
 
-    private void GrowSnakeSize(int length)
+    private void GrowSnakeBody()
     {
-        for(int i=0; i<length; i++)
-        {
-            Transform newSnakeBody = Instantiate(this.snakeBody, new Vector3(-100f, -100f, 0), new Quaternion(0f, 0f, 0f, 0f));
-            snakeMovePositionList.Add(newSnakeBody);
-        }
+        Transform snakeSegment = Instantiate(this.snakeBody);
+        snakeSegment.position = snakeBodyList[snakeBodyList.Count - 1].position;
+        snakeBodyList.Add(snakeSegment);
     }
+
 }

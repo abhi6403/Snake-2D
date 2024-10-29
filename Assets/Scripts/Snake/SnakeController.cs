@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
+    public string snakeID;
     private Vector2 moveDirection = Vector2.right;
     private Vector2 lastHeadPosition;
     private List<Transform> snakeBodyList;
@@ -47,25 +48,52 @@ public class SnakeController : MonoBehaviour
 
     private void SnakeMovement()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && moveDirection != Vector2.down)
+        if (snakeID == "SnakeOne")
         {
-            moveDirection = Vector2.up;
-            transform.eulerAngles = new Vector3(0, 0, 90);
+            if (Input.GetKeyDown(KeyCode.UpArrow) && moveDirection != Vector2.down)
+            {
+                moveDirection = Vector2.up;
+                transform.eulerAngles = new Vector3(0, 0, 90);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow) && moveDirection != Vector2.up)
+            {
+                moveDirection = Vector2.down;
+                transform.eulerAngles = new Vector3(0, 0, -90);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow) && moveDirection != Vector2.right)
+            {
+                moveDirection = Vector2.left;
+                transform.eulerAngles = new Vector3(0, 0, 180);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow) && moveDirection != Vector2.left)
+            {
+                moveDirection = Vector2.right;
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) && moveDirection != Vector2.up)
+
+        if (snakeID == "SnakeTwo")
         {
-            moveDirection = Vector2.down;
-            transform.eulerAngles = new Vector3(0, 0, -90);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) && moveDirection != Vector2.right)
-        {
-            moveDirection = Vector2.left;
-            transform.eulerAngles = new Vector3(0, 0, 180);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && moveDirection != Vector2.left)
-        {
-            moveDirection = Vector2.right;
-            transform.eulerAngles = new Vector3(0, 0, 0);
+            if (Input.GetKeyDown(KeyCode.W) && moveDirection != Vector2.down)
+            {
+                moveDirection = Vector2.up;
+                transform.eulerAngles = new Vector3(0, 0, 90);
+            }
+            else if (Input.GetKeyDown(KeyCode.S) && moveDirection != Vector2.up)
+            {
+                moveDirection = Vector2.down;
+                transform.eulerAngles = new Vector3(0, 0, -90);
+            }
+            else if (Input.GetKeyDown(KeyCode.A) && moveDirection != Vector2.right)
+            {
+                moveDirection = Vector2.left;
+                transform.eulerAngles = new Vector3(0, 0, 180);
+            }
+            else if (Input.GetKeyDown(KeyCode.D) && moveDirection != Vector2.left)
+            {
+                moveDirection = Vector2.right;
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            }
         }
     }
 

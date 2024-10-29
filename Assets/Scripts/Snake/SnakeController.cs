@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,9 +12,13 @@ public class SnakeController : MonoBehaviour
 
     public Transform snakeBody;
     public BoxCollider2D spawnArea;
-    public float bodyPartSpacing = 0.5f;
+    public float speedUp;
+    public int scoreUp;
 
     private bool hasEaten = false;
+    private bool isShieldActive = false;
+    private bool isSpeedBosstActive = false;
+    private bool isScoreMultiplierActive = false;
 
     public void Start()
     {
@@ -114,6 +119,22 @@ public class SnakeController : MonoBehaviour
             if(other.gameObject.CompareTag("Body"))
         {
             ResetSnake();
+        }else 
+            if(other.gameObject.CompareTag("Shield") )//&& isShieldActive)
+        {
+            HandleCollisionWithPowerUp(PowerUpType.SHIELD);
+            Destroy(other.gameObject);
+        }else 
+            if(other.gameObject.CompareTag("SpeedUp"))// && isSpeedBosstActive)
+        {
+            HandleCollisionWithPowerUp(PowerUpType.SPEEDBOOST);
+            Destroy(other.gameObject);
+        }
+        else
+            if(other.gameObject.CompareTag("ScoreX") )//&& isScoreMultiplierActive)
+        {
+            HandleCollisionWithPowerUp(PowerUpType.SCOREMULTIPLIER);
+            Destroy(other.gameObject);
         }
     }
 
@@ -137,4 +158,55 @@ public class SnakeController : MonoBehaviour
         this.transform.position = Vector3.zero;
     }
 
+    private void HandleCollisionWithPowerUp(PowerUpType powerUpType)
+    {
+        switch(powerUpType)
+        {
+            case PowerUpType.SHIELD:
+                StartCoroutine(ActivateShield());
+                Debug.Log("Shield Active");
+                break;
+
+                case PowerUpType.SPEEDBOOST:
+                StartCoroutine(ActivateSpeedBoost());
+                Debug.Log("Speed Active");
+                break;
+
+                case PowerUpType.SCOREMULTIPLIER:
+                StartCoroutine(ActivateScoreMultiplier());
+                Debug.Log("ScoreX Active");
+                break;
+        }
+    }
+    private IEnumerator ActivateShield()
+    {
+        isShieldActive = true;
+        yield return new WaitForSeconds(5);
+        Debug.Log("Shield Deactivated");
+        isShieldActive = false;
+    }
+
+    private IEnumerator ActivateSpeedBoost()
+    {
+        isSpeedBosstActive = true;
+        yield return new WaitForSeconds(5);
+        Debug.Log("SpeedBoost Deactivated");
+        isSpeedBosstActive = false;
+    }
+
+    private IEnumerator ActivateScoreMultiplier()
+    {
+        isScoreMultiplierActive = true;     
+        yield return new WaitForSeconds(5);
+        Debug.Log("ScoreX Deactivated");
+        isScoreMultiplierActive = false;
+    }
+
+}
+
+public enum PowerUpType
+{
+    SHIELD,
+    SPEEDBOOST,
+    SCOREMULTIPLIER,
 }

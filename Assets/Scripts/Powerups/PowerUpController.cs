@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
@@ -26,7 +27,7 @@ public class PowerUpController : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         Vector3 pos = GetRandomPosition();
 
-        int numberofObjects = Random.Range(0, powerUpsList.Length);
+        int numberofObjects = UnityEngine.Random.Range(0, powerUpsList.Length);
         GameObject powerup = Instantiate(powerUpsList[numberofObjects], pos, Quaternion.identity);
         isSpawning = false;
     }

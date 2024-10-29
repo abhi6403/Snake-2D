@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 public class FoodSpawner : MonoBehaviour
 {
     public BoxCollider2D foodSpawnArea;
-    public int minSpawnTime = 2;
-    public int maxSpawnTime = 5;
+    public float minSpawnTime = 0.5f;
+    public float maxSpawnTime = 1.5f;
     public GameObject[] foodList;
     
     

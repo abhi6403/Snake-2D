@@ -110,21 +110,29 @@ public class SnakeController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.CompareTag("Food") && !hasEaten)
+        if(other.gameObject.CompareTag("MassGainer") && !hasEaten)
         {
-            hasEaten = true;
+            HandleCollisionWithFood(FoodType.MASSGAINER);
             Destroy(other.gameObject);
-            GrowSnakeBody();
-        }else
+        }
+        else
+           if(other.gameObject.CompareTag("MassBurner") && !hasEaten)
+        {
+            HandleCollisionWithFood(FoodType.MASSBURNER);
+            Destroy(other.gameObject);
+        }
+        else
             if(other.gameObject.CompareTag("Body"))
         {
             ResetSnake();
-        }else 
+        }
+        else 
             if(other.gameObject.CompareTag("Shield") )//&& isShieldActive)
         {
             HandleCollisionWithPowerUp(PowerUpType.SHIELD);
             Destroy(other.gameObject);
-        }else 
+        }
+        else 
             if(other.gameObject.CompareTag("SpeedUp"))// && isSpeedBosstActive)
         {
             HandleCollisionWithPowerUp(PowerUpType.SPEEDBOOST);
@@ -158,6 +166,15 @@ public class SnakeController : MonoBehaviour
         this.transform.position = Vector3.zero;
     }
 
+    private void ReduceSnakeBody()
+    {
+        if(snakeBodyList.Count > 1)
+        {
+            Transform lastSegment = snakeBodyList[snakeBodyList.Count - 1];
+            snakeBodyList.RemoveAt(snakeBodyList.Count - 1);
+            Destroy(lastSegment.gameObject);
+        }
+    }
     private void HandleCollisionWithPowerUp(PowerUpType powerUpType)
     {
         switch(powerUpType)
@@ -175,6 +192,22 @@ public class SnakeController : MonoBehaviour
                 case PowerUpType.SCOREMULTIPLIER:
                 StartCoroutine(ActivateScoreMultiplier());
                 Debug.Log("ScoreX Active");
+                break;
+        }
+    }
+
+    private void HandleCollisionWithFood(FoodType foodType)
+    {
+        switch (foodType)
+        {
+            case FoodType.MASSGAINER:
+                hasEaten = true;
+                GrowSnakeBody();
+                break;
+
+            case FoodType.MASSBURNER:
+                hasEaten = true;
+                ReduceSnakeBody();
                 break;
         }
     }
@@ -209,4 +242,10 @@ public enum PowerUpType
     SHIELD,
     SPEEDBOOST,
     SCOREMULTIPLIER,
+}
+
+public enum FoodType
+{
+    MASSGAINER,
+    MASSBURNER,
 }

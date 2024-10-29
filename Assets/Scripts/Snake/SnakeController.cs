@@ -110,6 +110,10 @@ public class SnakeController : MonoBehaviour
             hasEaten = true;
             Destroy(other.gameObject);
             GrowSnakeBody();
+        }else
+            if(other.gameObject.CompareTag("Body"))
+        {
+            ResetSnake();
         }
     }
 
@@ -118,6 +122,19 @@ public class SnakeController : MonoBehaviour
         Transform snakeSegment = Instantiate(this.snakeBody);
         snakeSegment.position = snakeBodyList[snakeBodyList.Count - 1].position;
         snakeBodyList.Add(snakeSegment);
+    }
+
+    private void ResetSnake()
+    {
+        for(int i = 1; i < snakeBodyList.Count; i++)
+        {
+            Destroy(snakeBodyList[i].gameObject);
+        }
+
+        snakeBodyList.Clear();
+        snakeBodyList.Add(this.transform);
+
+        this.transform.position = Vector3.zero;
     }
 
 }

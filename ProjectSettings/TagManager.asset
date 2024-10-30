@@ -6,12 +6,15 @@ TagManager:
   tags:
   - Food
   - Body
-  - Head
   - Shield
   - SpeedUp
   - ScoreX
   - MassGainer
   - MassBurner
+  - SnakeOne
+  - SnakeTwo
+  - BodyOne
+  - BodyTwo
   layers:
   - Default
   - TransparentFX

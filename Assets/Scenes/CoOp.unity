@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 1098886099}
   m_Layer: 0
   m_Name: Snake1
-  m_TagString: Head
+  m_TagString: SnakeOne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -815,7 +815,7 @@ MonoBehaviour:
   snakeID: SnakeOne
   snakeBody: {fileID: 1235490215531020381, guid: faa1c09230a9e354c90f952853813da1, type: 3}
   spawnArea: {fileID: 556261929}
-  speedUp: 0
+  speedUp: 2
   scoreUp: 0
 --- !u!1 &1122111956
 GameObject:
@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 1200135757}
   m_Layer: 0
   m_Name: Snake2
-  m_TagString: Head
+  m_TagString: SnakeTwo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   snakeID: SnakeTwo
   snakeBody: {fileID: 3019072419643584197, guid: f91ecc31b17c5f349a282df49c023cf0, type: 3}
   spawnArea: {fileID: 556261929}
-  speedUp: 0
+  speedUp: 2
   scoreUp: 0
 --- !u!212 &1200135761
 SpriteRenderer:
@@ -1117,7 +1117,7 @@ Transform:
   m_GameObject: {fileID: 1200135756}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.13, y: 12.01, z: 0}
+  m_LocalPosition: {x: 30.5, y: 36, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

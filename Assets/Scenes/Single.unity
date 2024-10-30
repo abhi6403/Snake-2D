@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 1098886099}
   m_Layer: 0
   m_Name: Snake
-  m_TagString: Head
+  m_TagString: SnakeOne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -812,6 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1843b693f3c2bce4288deb7974971fe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snakeID: 
   snakeBody: {fileID: 1235490215531020381, guid: faa1c09230a9e354c90f952853813da1, type: 3}
   spawnArea: {fileID: 556261929}
   speedUp: 0

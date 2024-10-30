@@ -99,14 +99,26 @@ public class SnakeController : MonoBehaviour
 
     private void SnakePosition()
     {
-        //body movement
-        for(int i = snakeBodyList.Count - 1; i > 0; i--)
         {
-            snakeBodyList[i].position = snakeBodyList[i - 1].position;
-        }
+            //body movement
+            for (int i = snakeBodyList.Count - 1; i > 0; i--)
+            {
+                snakeBodyList[i].position = snakeBodyList[i - 1].position;
+            }
 
-        //head movement
-        transform.position += (Vector3)moveDirection;
+            //head movement
+            if (isSpeedBosstActive == true)
+            {
+                transform.position += (Vector3)moveDirection * speedUp;
+
+            }
+            else
+            {
+
+                transform.position += (Vector3)moveDirection;
+            }
+        }
+        
     }
 
     protected void WrapSnakeInBounds()
@@ -150,24 +162,24 @@ public class SnakeController : MonoBehaviour
             Destroy(other.gameObject);
         }
         else
-            if(other.gameObject.CompareTag("Body"))
+            if(other.gameObject.CompareTag("BodyOne") || other.gameObject.CompareTag("BodyTwo") && isShieldActive == false)
         {
             ResetSnake();
         }
         else 
-            if(other.gameObject.CompareTag("Shield") )//&& isShieldActive)
+            if(other.gameObject.CompareTag("Shield") && isShieldActive == false)
         {
             HandleCollisionWithPowerUp(PowerUpType.SHIELD);
             Destroy(other.gameObject);
         }
         else 
-            if(other.gameObject.CompareTag("SpeedUp"))// && isSpeedBosstActive)
+            if(other.gameObject.CompareTag("SpeedUp") && isSpeedBosstActive == false)
         {
             HandleCollisionWithPowerUp(PowerUpType.SPEEDBOOST);
             Destroy(other.gameObject);
         }
         else
-            if(other.gameObject.CompareTag("ScoreX") )//&& isScoreMultiplierActive)
+            if(other.gameObject.CompareTag("ScoreX") && isScoreMultiplierActive == false)
         {
             HandleCollisionWithPowerUp(PowerUpType.SCOREMULTIPLIER);
             Destroy(other.gameObject);
@@ -191,7 +203,7 @@ public class SnakeController : MonoBehaviour
         snakeBodyList.Clear();
         snakeBodyList.Add(this.transform);
 
-        this.transform.position = Vector3.zero;
+        this.transform.position = new Vector3(30.0f,30.0f,0.0f);
     }
 
     private void ReduceSnakeBody()
@@ -257,7 +269,7 @@ public class SnakeController : MonoBehaviour
 
     private IEnumerator ActivateScoreMultiplier()
     {
-        isScoreMultiplierActive = true;     
+        isScoreMultiplierActive = true;
         yield return new WaitForSeconds(5);
         Debug.Log("ScoreX Deactivated");
         isScoreMultiplierActive = false;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,10 +12,13 @@ public class SnakeController : MonoBehaviour
     private Vector2 lastHeadPosition;
     private List<Transform> snakeBodyList;
 
+    public GameUIManager gameUIManager;
+    public GameObject speedPowerUp;
+    public GameObject shieldPowerUp;
+    public GameObject scorePowerUp;
     public Transform snakeBody;
     public BoxCollider2D spawnArea;
     public float speedUp;
-    public int scoreUp;
 
     private bool hasEaten = false;
     private bool isShieldActive = false;
@@ -243,18 +247,33 @@ public class SnakeController : MonoBehaviour
             case FoodType.MASSGAINER:
                 hasEaten = true;
                 GrowSnakeBody();
+                ScoreMultiplier();
                 break;
 
             case FoodType.MASSBURNER:
                 hasEaten = true;
                 ReduceSnakeBody();
+                gameUIManager.DecreaseScore(1);
                 break;
+        }
+    }
+
+    private void ScoreMultiplier()
+    {
+        if(isScoreMultiplierActive == true)
+        {
+            gameUIManager.IncreaseScore(2);
+        }else
+        {
+            gameUIManager.IncreaseScore(1);
         }
     }
     private IEnumerator ActivateShield()
     {
         isShieldActive = true;
+        shieldPowerUp.SetActive(true);
         yield return new WaitForSeconds(5);
+        shieldPowerUp.SetActive(false);
         Debug.Log("Shield Deactivated");
         isShieldActive = false;
     }
@@ -262,7 +281,9 @@ public class SnakeController : MonoBehaviour
     private IEnumerator ActivateSpeedBoost()
     {
         isSpeedBosstActive = true;
+        speedPowerUp.SetActive(true);
         yield return new WaitForSeconds(5);
+        speedPowerUp.SetActive(false);
         Debug.Log("SpeedBoost Deactivated");
         isSpeedBosstActive = false;
     }
@@ -270,7 +291,9 @@ public class SnakeController : MonoBehaviour
     private IEnumerator ActivateScoreMultiplier()
     {
         isScoreMultiplierActive = true;
+        scorePowerUp.SetActive(true);
         yield return new WaitForSeconds(5);
+        scorePowerUp.SetActive(false);
         Debug.Log("ScoreX Deactivated");
         isScoreMultiplierActive = false;
     }

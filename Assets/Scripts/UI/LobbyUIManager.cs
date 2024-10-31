@@ -26,6 +26,7 @@ public class LobbyUIManager : MonoBehaviour
     public void MultiPlayerButtonClick()
     {
         SceneManager.LoadScene(2);
+        Time.timeScale = 1.0f;
     }
 
     public void QuitButtonClick()

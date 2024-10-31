@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SnakeController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class SnakeController : MonoBehaviour
     private List<Transform> snakeBodyList;
 
     public GameUIManager gameUIManager;
+    public GameObject gameOverObject;
+    public GameObject gameUI;
     public GameObject speedPowerUp;
     public GameObject shieldPowerUp;
     public GameObject scorePowerUp;
@@ -165,10 +168,37 @@ public class SnakeController : MonoBehaviour
             HandleCollisionWithFood(FoodType.MASSBURNER);
             Destroy(other.gameObject);
         }
-        else
-            if(other.gameObject.CompareTag("BodyOne") || other.gameObject.CompareTag("BodyTwo") && isShieldActive == false)
+        /*else
+            if((other.gameObject.CompareTag("BodyOne") || other.gameObject.CompareTag("BodyTwo")) && isShieldActive == false)
         {
-            ResetSnake();
+            
+        }*/
+        else
+        if(other.gameObject.CompareTag("BodyOne")  && isShieldActive == false)
+        {
+           
+
+            if(SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(1))
+            {
+                gameOverObject.SetActive(true);
+                gameUIManager.UpdateHighScore();
+                gameUI.SetActive(false);
+                Time.timeScale = 0f;
+            } else
+            {
+                gameOverObject.SetActive(true);
+                gameUI.SetActive(false);
+                gameUIManager.UpdateWinner(2);
+                Time.timeScale = 0f;
+            }
+        }
+        else 
+        if(other.gameObject.CompareTag("BodyTwo") && isShieldActive == false)
+        {
+            gameOverObject.SetActive(true);
+            gameUI.SetActive(false);
+            gameUIManager.UpdateWinner(1);
+            Time.timeScale = 0f;
         }
         else 
             if(other.gameObject.CompareTag("Shield") && isShieldActive == false)

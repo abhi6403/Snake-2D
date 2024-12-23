@@ -1526,6 +1526,10 @@ MonoBehaviour:
   snakeBody: {fileID: 1235490215531020381, guid: faa1c09230a9e354c90f952853813da1, type: 3}
   spawnArea: {fileID: 556261929}
   speedUp: 1.5
+  upKey: 273
+  downKey: 274
+  leftKey: 276
+  rightKey: 275
 --- !u!1 &1122111956
 GameObject:
   m_ObjectHideFlags: 0
@@ -2374,53 +2378,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1942998001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1942998003}
-  - component: {fileID: 1942998002}
-  m_Layer: 3
-  m_Name: GridMaker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1942998002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942998001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9fda62eeffb88479f572a3f39f1b05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridbox: {fileID: 3300165902163385652, guid: ae6e960b4e5c94b4098bdcebb5a50e26, type: 3}
-  rows: 50
-  cols: 50
---- !u!4 &1942998003
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942998001}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6840594, y: 6.3680587, z: -0.094365746}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971342687
 GameObject:
   m_ObjectHideFlags: 0
@@ -2909,7 +2866,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 793594980}
-  - {fileID: 1942998003}
   - {fileID: 992065740}
   - {fileID: 1098886098}
   - {fileID: 556261928}

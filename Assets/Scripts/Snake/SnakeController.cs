@@ -6,113 +6,98 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SnakeController : MonoBehaviour
+namespace Snake
 {
-    public string snakeID;
-    private Vector2 moveDirection = Vector2.right;
-    private Vector2 lastHeadPosition;
-    private List<Transform> snakeBodyList;
-
-    public GameUIManager gameUIManager;
-    public GameObject gameOverObject;
-    public GameObject gameUI;
-    public GameObject speedPowerUp;
-    public GameObject shieldPowerUp;
-    public GameObject scorePowerUp;
-    public Transform snakeBody;
-    public BoxCollider2D spawnArea;
-    public float speedUp;
-
-    private bool hasEaten = false;
-    private bool isShieldActive = false;
-    private bool isSpeedBosstActive = false;
-    private bool isScoreMultiplierActive = false;
-
-    public void Start()
+    public class SnakeController : MonoBehaviour
     {
-        snakeBodyList = new List<Transform>();
-        snakeBodyList.Add(this.transform);
-        lastHeadPosition = transform.position;
-    }
-    private void Update()
-    {
-        SnakeMovement();
+        public string snakeID;
+        private Vector2 moveDirection = Vector2.right;
+        private Vector2 lastHeadPosition;
+        private List<Transform> snakeBodyList;
 
-        if(Vector2.Distance(lastHeadPosition, transform.position) > 0.1f)
+        public UI.GameUIManager gameUIManager;
+        public GameObject gameOverObject;
+        public GameObject gameUI;
+        public GameObject speedPowerUp;
+        public GameObject shieldPowerUp;
+        public GameObject scorePowerUp;
+        public Transform snakeBody;
+        public BoxCollider2D spawnArea;
+        public float speedUp;
+
+        public KeyCode upKey = KeyCode.UpArrow;
+        public KeyCode downKey = KeyCode.DownArrow;
+        public KeyCode leftKey = KeyCode.LeftArrow;
+        public KeyCode rightKey = KeyCode.RightArrow;
+
+        private bool hasEaten = false;
+        private bool isShieldActive = false;
+        private bool isSpeedBosstActive = false;
+        private bool isScoreMultiplierActive = false;
+
+        public void Start()
         {
-            hasEaten = false;
+            snakeBodyList = new List<Transform>();
+            snakeBodyList.Add(this.transform);
             lastHeadPosition = transform.position;
         }
-    }
 
-    private void FixedUpdate()
-    {
-       lastHeadPosition = transform.position;
-       SnakePosition();
-       WrapSnakeInBounds();
-        
-    }
-
-    private void SnakeMovement()
-    {
-        if (snakeID == "SnakeOne")
+        private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow) && moveDirection != Vector2.down)
+            SnakeMovement();
+
+            if (Vector2.Distance(lastHeadPosition, transform.position) > 0.1f)
             {
-                moveDirection = Vector2.up;
-                transform.eulerAngles = new Vector3(0, 0, 90);
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow) && moveDirection != Vector2.up)
-            {
-                moveDirection = Vector2.down;
-                transform.eulerAngles = new Vector3(0, 0, -90);
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) && moveDirection != Vector2.right)
-            {
-                moveDirection = Vector2.left;
-                transform.eulerAngles = new Vector3(0, 0, 180);
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow) && moveDirection != Vector2.left)
-            {
-                moveDirection = Vector2.right;
-                transform.eulerAngles = new Vector3(0, 0, 0);
+                hasEaten = false;
+                lastHeadPosition = transform.position;
             }
         }
 
-        if (snakeID == "SnakeTwo")
+        private void FixedUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.W) && moveDirection != Vector2.down)
+            lastHeadPosition = transform.position;
+            SnakePosition();
+            WrapSnakeInBounds();
+        }
+
+        private void SnakeMovement()
+        {
+            if (snakeID == "SnakeOne" || snakeID == "SnakeTwo")
             {
-                moveDirection = Vector2.up;
-                transform.eulerAngles = new Vector3(0, 0, 90);
-            }
-            else if (Input.GetKeyDown(KeyCode.S) && moveDirection != Vector2.up)
-            {
-                moveDirection = Vector2.down;
-                transform.eulerAngles = new Vector3(0, 0, -90);
-            }
-            else if (Input.GetKeyDown(KeyCode.A) && moveDirection != Vector2.right)
-            {
-                moveDirection = Vector2.left;
-                transform.eulerAngles = new Vector3(0, 0, 180);
-            }
-            else if (Input.GetKeyDown(KeyCode.D) && moveDirection != Vector2.left)
-            {
-                moveDirection = Vector2.right;
-                transform.eulerAngles = new Vector3(0, 0, 0);
+                if (Input.GetKeyDown(upKey) && moveDirection != Vector2.down)
+                {
+                    moveDirection = Vector2.up;
+                    transform.eulerAngles = new Vector3(0, 0, 90);
+                }
+                else if (Input.GetKeyDown(downKey) && moveDirection != Vector2.up)
+                {
+                    moveDirection = Vector2.down;
+                    transform.eulerAngles = new Vector3(0, 0, -90);
+                }
+                else if (Input.GetKeyDown(leftKey) && moveDirection != Vector2.right)
+                {
+                    moveDirection = Vector2.left;
+                    transform.eulerAngles = new Vector3(0, 0, 180);
+                }
+                else if (Input.GetKeyDown(rightKey) && moveDirection != Vector2.left)
+                {
+                    moveDirection = Vector2.right;
+                    transform.eulerAngles = new Vector3(0, 0, 0);
+                }
             }
         }
-    }
 
-    private void SnakePosition()
-    {
+        private void SnakePosition()
         {
-            //body movement
-            for (int i = snakeBodyList.Count - 1; i > 0; i--)
             {
-                snakeBodyList[i].position = snakeBodyList[i - 1].position;
+                SnakeBodyMovement();
+                SnakeHeadMovement();
             }
 
+        }
+
+        private void SnakeHeadMovement()
+        {
             //head movement
             if (isSpeedBosstActive == true)
             {
@@ -121,224 +106,220 @@ public class SnakeController : MonoBehaviour
             }
             else
             {
-
                 transform.position += (Vector3)moveDirection;
             }
         }
-        
-    }
-
-    protected void WrapSnakeInBounds()
-    {
-        Bounds bounds = spawnArea.bounds;
-
-        Vector3 snakeHeadPosition = this.transform.position;
-
-        if (snakeHeadPosition.x > bounds.max.x)
+        private void SnakeBodyMovement()
         {
-            snakeHeadPosition.x = bounds.min.x;
-        }
-        else if (snakeHeadPosition.x < bounds.min.x)
-        {
-            snakeHeadPosition.x = bounds.max.x;
-        }
-
-        if (snakeHeadPosition.y > bounds.max.y)
-        {
-            snakeHeadPosition.y = bounds.min.y;
-        }
-        else if (snakeHeadPosition.y < bounds.min.y)
-        {
-            snakeHeadPosition.y = bounds.max.y;
-        }
-
-        this.transform.position = snakeHeadPosition;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.gameObject.CompareTag("MassGainer") && !hasEaten)
-        {
-            HandleCollisionWithFood(FoodType.MASSGAINER);
-            Destroy(other.gameObject);
-        }
-        else
-           if(other.gameObject.CompareTag("MassBurner") && !hasEaten)
-        {
-            HandleCollisionWithFood(FoodType.MASSBURNER);
-            Destroy(other.gameObject);
-        }
-        /*else
-            if((other.gameObject.CompareTag("BodyOne") || other.gameObject.CompareTag("BodyTwo")) && isShieldActive == false)
-        {
-            
-        }*/
-        else
-        if(other.gameObject.CompareTag("BodyOne")  && isShieldActive == false)
-        {
-           
-
-            if(SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(1))
+            //body movement
+            for (int i = snakeBodyList.Count - 1; i > 0; i--)
             {
-                gameOverObject.SetActive(true);
-                gameUIManager.UpdateHighScore();
-                gameUI.SetActive(false);
-                Time.timeScale = 0f;
-            } else
-            {
-                gameOverObject.SetActive(true);
-                gameUI.SetActive(false);
-                gameUIManager.UpdateWinner(2);
-                Time.timeScale = 0f;
+                snakeBodyList[i].position = snakeBodyList[i - 1].position;
             }
         }
-        else 
-        if(other.gameObject.CompareTag("BodyTwo") && isShieldActive == false)
+        protected void WrapSnakeInBounds() //method to wrap snake in bounds
+        {
+            Bounds bounds = spawnArea.bounds;
+
+            Vector3 snakeHeadPosition = this.transform.position;
+
+            if (snakeHeadPosition.x > bounds.max.x)
+            {
+                snakeHeadPosition.x = bounds.min.x;
+            }
+            else if (snakeHeadPosition.x < bounds.min.x)
+            {
+                snakeHeadPosition.x = bounds.max.x;
+            }
+
+            if (snakeHeadPosition.y > bounds.max.y)
+            {
+                snakeHeadPosition.y = bounds.min.y;
+            }
+            else if (snakeHeadPosition.y < bounds.min.y)
+            {
+                snakeHeadPosition.y = bounds.max.y;
+            }
+
+            this.transform.position = snakeHeadPosition;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            //collision with food
+            if (other.gameObject.CompareTag("MassGainer") && !hasEaten)
+            {
+                HandleCollisionWithFood(FoodType.MASSGAINER);
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.CompareTag("MassBurner") && !hasEaten)
+            {
+                HandleCollisionWithFood(FoodType.MASSBURNER);
+                Destroy(other.gameObject);
+            }
+            else
+                //checking for collision with SnakeOneBody
+            if (other.gameObject.CompareTag("BodyOne") && isShieldActive == false)
+            {
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(1))
+                {
+                    showGameOverUI();
+                    gameUIManager.UpdateHighScore();
+                }
+                else
+                {
+                    showGameOverUI();
+                    gameUIManager.UpdateWinner(2);
+                }
+            }
+            else
+                //checking for collision with SnakeTwoBody
+            if (other.gameObject.CompareTag("BodyTwo") && isShieldActive == false)
+            {
+                showGameOverUI();
+                gameUIManager.UpdateWinner(1);
+            }
+            else
+                //collision with shield
+            if (other.gameObject.CompareTag("Shield") && isShieldActive == false)
+            {
+                HandleCollisionWithPowerUp(PowerUpType.SHIELD);
+                Destroy(other.gameObject);
+            }
+            else
+                //collision with speedup
+            if (other.gameObject.CompareTag("SpeedUp") && isSpeedBosstActive == false)
+            {
+                HandleCollisionWithPowerUp(PowerUpType.SPEEDBOOST);
+                Destroy(other.gameObject);
+            }
+            else
+                //collision with scoreMultiplier
+            if (other.gameObject.CompareTag("ScoreX") && isScoreMultiplierActive == false)
+            {
+                HandleCollisionWithPowerUp(PowerUpType.SCOREMULTIPLIER);
+                Destroy(other.gameObject);
+            }
+        }
+
+        private void showGameOverUI()
         {
             gameOverObject.SetActive(true);
-            gameUI.SetActive(false);
-            gameUIManager.UpdateWinner(1);
+            gameUI.gameObject.SetActive(false);
             Time.timeScale = 0f;
         }
-        else 
-            if(other.gameObject.CompareTag("Shield") && isShieldActive == false)
-        {
-            HandleCollisionWithPowerUp(PowerUpType.SHIELD);
-            Destroy(other.gameObject);
-        }
-        else 
-            if(other.gameObject.CompareTag("SpeedUp") && isSpeedBosstActive == false)
-        {
-            HandleCollisionWithPowerUp(PowerUpType.SPEEDBOOST);
-            Destroy(other.gameObject);
-        }
-        else
-            if(other.gameObject.CompareTag("ScoreX") && isScoreMultiplierActive == false)
-        {
-            HandleCollisionWithPowerUp(PowerUpType.SCOREMULTIPLIER);
-            Destroy(other.gameObject);
-        }
-    }
 
-    private void GrowSnakeBody()
-    {
-        Transform snakeSegment = Instantiate(this.snakeBody);
-        snakeSegment.position = snakeBodyList[snakeBodyList.Count - 1].position;
-        snakeBodyList.Add(snakeSegment);
-    }
-
-    private void ResetSnake()
-    {
-        for(int i = 1; i < snakeBodyList.Count; i++)
+        private void GrowSnakeBody()
         {
-            Destroy(snakeBodyList[i].gameObject);
+            Transform snakeSegment = Instantiate(this.snakeBody);
+            snakeSegment.position = snakeBodyList[snakeBodyList.Count - 1].position;
+            snakeBodyList.Add(snakeSegment);
         }
 
-        snakeBodyList.Clear();
-        snakeBodyList.Add(this.transform);
-
-        this.transform.position = new Vector3(30.0f,30.0f,0.0f);
-    }
-
-    private void ReduceSnakeBody()
-    {
-        if(snakeBodyList.Count > 1)
+        private void ResetSnake()
         {
-            Transform lastSegment = snakeBodyList[snakeBodyList.Count - 1];
-            snakeBodyList.RemoveAt(snakeBodyList.Count - 1);
-            Destroy(lastSegment.gameObject);
+            for (int i = 1; i < snakeBodyList.Count; i++)
+            {
+                Destroy(snakeBodyList[i].gameObject);
+            }
+
+            snakeBodyList.Clear();
+            snakeBodyList.Add(this.transform);
+
+            this.transform.position = new Vector3(30.0f, 30.0f, 0.0f);
         }
-    }
-    private void HandleCollisionWithPowerUp(PowerUpType powerUpType)
-    {
-        switch(powerUpType)
+
+        private void ReduceSnakeBody()
         {
-            case PowerUpType.SHIELD:
-                StartCoroutine(ActivateShield());
-                Debug.Log("Shield Active");
-                break;
+            if (snakeBodyList.Count > 1)
+            {
+                Transform lastSegment = snakeBodyList[snakeBodyList.Count - 1];
+                snakeBodyList.RemoveAt(snakeBodyList.Count - 1);
+                Destroy(lastSegment.gameObject);
+            }
+        }
+
+        private void HandleCollisionWithPowerUp(PowerUpType powerUpType)
+        {
+            switch (powerUpType)
+            {
+                case PowerUpType.SHIELD:
+                    StartCoroutine(ActivateShield());
+                    Debug.Log("Shield Active");
+                    break;
 
                 case PowerUpType.SPEEDBOOST:
-                StartCoroutine(ActivateSpeedBoost());
-                Debug.Log("Speed Active");
-                break;
+                    StartCoroutine(ActivateSpeedBoost());
+                    Debug.Log("Speed Active");
+                    break;
 
                 case PowerUpType.SCOREMULTIPLIER:
-                StartCoroutine(ActivateScoreMultiplier());
-                Debug.Log("ScoreX Active");
-                break;
+                    StartCoroutine(ActivateScoreMultiplier());
+                    Debug.Log("ScoreX Active");
+                    break;
+            }
         }
-    }
 
-    private void HandleCollisionWithFood(FoodType foodType)
-    {
-        switch (foodType)
+        private void HandleCollisionWithFood(FoodType foodType)
         {
-            case FoodType.MASSGAINER:
-                hasEaten = true;
-                GrowSnakeBody();
-                ScoreMultiplier();
-                break;
+            switch (foodType)
+            {
+                case FoodType.MASSGAINER:
+                    hasEaten = true;
+                    GrowSnakeBody();
+                    ScoreMultiplier();
+                    break;
 
-            case FoodType.MASSBURNER:
-                hasEaten = true;
-                ReduceSnakeBody();
-                gameUIManager.DecreaseScore(1);
-                break;
+                case FoodType.MASSBURNER:
+                    hasEaten = true;
+                    ReduceSnakeBody();
+                    gameUIManager.DecreaseScore(1);
+                    break;
+            }
         }
-    }
 
-    private void ScoreMultiplier()
-    {
-        if(isScoreMultiplierActive == true)
+        private void ScoreMultiplier()
         {
-            gameUIManager.IncreaseScore(2);
-        }else
-        {
-            gameUIManager.IncreaseScore(1);
+            if (isScoreMultiplierActive == true)
+            {
+                gameUIManager.IncreaseScore(2);
+            }
+            else
+            {
+                gameUIManager.IncreaseScore(1);
+            }
         }
+
+        private IEnumerator ActivateShield()
+        {
+            isShieldActive = true;
+            shieldPowerUp.SetActive(true);
+            yield return new WaitForSeconds(5);
+            shieldPowerUp.SetActive(false);
+            Debug.Log("Shield Deactivated");
+            isShieldActive = false;
+        }
+
+        private IEnumerator ActivateSpeedBoost()
+        {
+            isSpeedBosstActive = true;
+            speedPowerUp.SetActive(true);
+            yield return new WaitForSeconds(5);
+            speedPowerUp.SetActive(false);
+            Debug.Log("SpeedBoost Deactivated");
+            isSpeedBosstActive = false;
+        }
+
+        private IEnumerator ActivateScoreMultiplier()
+        {
+            isScoreMultiplierActive = true;
+            scorePowerUp.SetActive(true);
+            yield return new WaitForSeconds(5);
+            scorePowerUp.SetActive(false);
+            Debug.Log("ScoreX Deactivated");
+            isScoreMultiplierActive = false;
+        }
+
     }
-    private IEnumerator ActivateShield()
-    {
-        isShieldActive = true;
-        shieldPowerUp.SetActive(true);
-        yield return new WaitForSeconds(5);
-        shieldPowerUp.SetActive(false);
-        Debug.Log("Shield Deactivated");
-        isShieldActive = false;
-    }
 
-    private IEnumerator ActivateSpeedBoost()
-    {
-        isSpeedBosstActive = true;
-        speedPowerUp.SetActive(true);
-        yield return new WaitForSeconds(5);
-        speedPowerUp.SetActive(false);
-        Debug.Log("SpeedBoost Deactivated");
-        isSpeedBosstActive = false;
-    }
-
-    private IEnumerator ActivateScoreMultiplier()
-    {
-        isScoreMultiplierActive = true;
-        scorePowerUp.SetActive(true);
-        yield return new WaitForSeconds(5);
-        scorePowerUp.SetActive(false);
-        Debug.Log("ScoreX Deactivated");
-        isScoreMultiplierActive = false;
-    }
-
-}
-
-public enum PowerUpType
-{
-    SHIELD,
-    SPEEDBOOST,
-    SCOREMULTIPLIER,
-}
-
-public enum FoodType
-{
-    MASSGAINER,
-    MASSBURNER,
 }

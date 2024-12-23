@@ -5,33 +5,37 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LobbyUIManager : MonoBehaviour
+namespace UI
 {
-    public Button singlePlayButton;
-    public Button multiPlayButton;
-    public Button quitButton;
-
-    public void Start()
+    public class LobbyUIManager : MonoBehaviour
     {
-        singlePlayButton.onClick.AddListener(SinglePlayerButtonClick);
-        multiPlayButton.onClick.AddListener(MultiPlayerButtonClick);
-        quitButton.onClick.AddListener(QuitButtonClick);
-    }
+        public Button singlePlayButton;
+        public Button multiPlayButton;
+        public Button quitButton;
 
-    public void SinglePlayerButtonClick()
-    {
-        SceneManager.LoadScene(1);
-        Time.timeScale = 1.0f;
-    }
+        public void Start()
+        {
+            singlePlayButton.onClick.AddListener(SinglePlayerButtonClick);
+            multiPlayButton.onClick.AddListener(MultiPlayerButtonClick);
+            quitButton.onClick.AddListener(QuitButtonClick);
+        }
 
-    public void MultiPlayerButtonClick()
-    {
-        SceneManager.LoadScene(2);
-        Time.timeScale = 1.0f;
-    }
+        public void SinglePlayerButtonClick()
+        {
+            SceneManager.LoadScene(1);
+            Time.timeScale = 1.0f;
+        }
 
-    public void QuitButtonClick()
-    {
-        Application.Quit();
+        public void MultiPlayerButtonClick()
+        {
+            SceneManager.LoadScene(2);
+            Time.timeScale = 1.0f;
+        }
+
+        public void QuitButtonClick()
+        {
+            Application.Quit();
+        }
     }
 }
+

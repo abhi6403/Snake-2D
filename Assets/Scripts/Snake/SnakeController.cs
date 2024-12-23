@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Food;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
@@ -149,12 +150,12 @@ namespace Snake
             //collision with food
             if (other.gameObject.CompareTag("MassGainer") && !hasEaten)
             {
-                HandleCollisionWithFood(FoodType.MASSGAINER);
+                HandleCollisionWithFood(Food.FoodType.MASSGAINER);
                 Destroy(other.gameObject);
             }
             else if (other.gameObject.CompareTag("MassBurner") && !hasEaten)
             {
-                HandleCollisionWithFood(FoodType.MASSBURNER);
+                HandleCollisionWithFood(Food.FoodType.MASSBURNER);
                 Destroy(other.gameObject);
             }
             else

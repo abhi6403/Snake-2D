@@ -13,7 +13,8 @@ TagManager:
   - MassBurner
   - SnakeOne
   - SnakeTwo
-  - BodyOne
+  - SnakeOneBody
+  - SnakeTwoBody
   - BodyTwo
   layers:
   - Default

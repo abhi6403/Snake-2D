@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2898861119679987664}
   m_Layer: 0
   m_Name: Snake2Body
-  m_TagString: BodyTwo
+  m_TagString: SnakeTwoBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -8,7 +8,7 @@ namespace MatProject.Game
     {
         public int lifeTime = 5;
 
-        private void Update()
+        private void Start()
         {
             StartCoroutine(DestroyObject(lifeTime));
         }

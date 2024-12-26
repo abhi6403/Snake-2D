@@ -12,7 +12,6 @@ namespace MatProject.Snake
 {
     public class SnakeController : MonoBehaviour
     {
-        public string snakeID;
         private Vector2 moveDirection = Vector2.right;
         private Vector2 lastHeadPosition;
         private List<Transform> snakeBodyList;
@@ -64,8 +63,6 @@ namespace MatProject.Snake
 
         private void SnakeMovement()
         {
-            if (snakeID == "SnakeOne" || snakeID == "SnakeTwo")
-            {
                 if (Input.GetKeyDown(upKey) && moveDirection != Vector2.down)
                 {
                     moveDirection = Vector2.up;
@@ -86,7 +83,6 @@ namespace MatProject.Snake
                     moveDirection = Vector2.right;
                     transform.eulerAngles = new Vector3(0, 0, 0);
                 }
-            }
         }
 
         private void SnakePosition()
@@ -160,8 +156,8 @@ namespace MatProject.Snake
                 Destroy(other.gameObject);
             }
             else
-                //checking for collision with SnakeOneBody
-            if (other.gameObject.CompareTag("BodyOne") && isShieldActive == false)
+                //checking for collision with playerone snake 
+            if (other.gameObject.CompareTag("SnakeOneBody") && isShieldActive == false)
             {
                 if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(1))
                 {
@@ -175,8 +171,8 @@ namespace MatProject.Snake
                 }
             }
             else
-                //checking for collision with SnakeTwoBody
-            if (other.gameObject.CompareTag("BodyTwo") && isShieldActive == false)
+                //checking for collision with playertwo snake 
+            if (other.gameObject.CompareTag("SnakeTwoBody") && isShieldActive == false)
             {
                 showGameOverUI();
                 gameUIManager.UpdateWinner(1);
@@ -203,7 +199,8 @@ namespace MatProject.Snake
                 Destroy(other.gameObject);
             }
         }
-
+        
+        
         private void showGameOverUI()
         {
             gameOverObject.SetActive(true);

@@ -13,7 +13,8 @@ namespace MatProject.Game
         public float minSpawnTime;
         [SerializeField]
         public float maxSpawnTime;
-        
+
+        private float waitTime = 4;
         private float lastSpawnTime;
     
         public GameObject[] ObjectList;
@@ -22,18 +23,12 @@ namespace MatProject.Game
 
         private void Update()
         {
-            if(!isSpawning)
-            {
-                float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
-
                 if (Time.time > lastSpawnTime + waitTime)
                 {
-                    isSpawning = true;
                     SpawnObject();
+                    waitTime = Random.Range(minSpawnTime, maxSpawnTime);
                     lastSpawnTime = Time.time;
                 }
-                
-            }
         }
 
         private void SpawnObject()
@@ -41,8 +36,7 @@ namespace MatProject.Game
             Vector3 pos = GetRandomPosition();
 
             int numberOfObjects = Random.Range(0, ObjectList.Length);
-            GameObject gameObject = Instantiate(ObjectList[numberOfObjects],pos,Quaternion.identity);
-            isSpawning = false;
+            GameObject gameObject = Instantiate(ObjectList[numberOfObjects], pos, Quaternion.identity);
         }
 
         private Vector3 GetRandomPosition()

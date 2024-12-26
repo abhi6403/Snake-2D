@@ -928,8 +928,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnArea: {fileID: 556261929}
-  minSpawnTime: 0.5
-  maxSpawnTime: 1
+  minSpawnTime: 1.5
+  maxSpawnTime: 3
   ObjectList:
   - {fileID: 3034887867109543508, guid: d7d309ba216b72f4eb9a430a63ecda5d, type: 3}
   - {fileID: 3073302721099948035, guid: 2814f00ef3a13a94fb7354df48f1d15e, type: 3}
@@ -1934,8 +1934,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnArea: {fileID: 556261929}
-  minSpawnTime: 5
-  maxSpawnTime: 5
+  minSpawnTime: 6
+  maxSpawnTime: 8
   ObjectList:
   - {fileID: 1978388090947277865, guid: 9a2d27a7479748043ab9670dadb7cf1f, type: 3}
   - {fileID: 3928084645608030994, guid: 1645cdd8b1b0ae34cadacfe6b4d6ed94, type: 3}

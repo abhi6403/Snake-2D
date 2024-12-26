@@ -13,6 +13,8 @@ namespace Game
         public float minSpawnTime;
         [SerializeField]
         public float maxSpawnTime;
+        
+        private float lastSpawnTime;
     
         public GameObject[] ObjectList;
     
@@ -22,14 +24,20 @@ namespace Game
         {
             if(!isSpawning)
             {
-                isSpawning = true;
-                StartCoroutine(SpawnObject(UnityEngine.Random.Range(minSpawnTime, maxSpawnTime)));
+                float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
+
+                if (Time.time > lastSpawnTime + waitTime)
+                {
+                    isSpawning = true;
+                    SpawnObject();
+                    lastSpawnTime = Time.time;
+                }
+                
             }
         }
 
-        IEnumerator SpawnObject(float seconds)
+        private void SpawnObject()
         {
-            yield return new WaitForSeconds(seconds);
             Vector3 pos = GetRandomPosition();
 
             int numberOfObjects = Random.Range(0, ObjectList.Length);

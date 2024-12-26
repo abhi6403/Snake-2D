@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d471df63-c3ab-42a5-8cfd-edfb5d9cd0eb" name="Changes" comment="" />
+    <list default="true" id="d471df63-c3ab-42a5-8cfd-edfb5d9cd0eb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Snake-2D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Snake-2D/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,10 +19,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Food/FoodType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.visualscripting@1.9.1/Editor/VisualScripting.Flow/Options/UnitBase.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2qb80dFUhzNteeXZ8XzCTSvusjB" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -100,6 +102,7 @@
       <option name="presentableId" value="Default" />
       <updated>1734919694337</updated>
       <workItem from="1734919698871" duration="12306000" />
+      <workItem from="1735174210347" duration="2053000" />
     </task>
     <servers />
   </component>

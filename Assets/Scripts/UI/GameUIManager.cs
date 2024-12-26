@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace UI
+namespace MatProject.UI
 {
     public class GameUIManager : MonoBehaviour
     {

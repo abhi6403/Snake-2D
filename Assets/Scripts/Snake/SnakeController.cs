@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using Food;
+using MatProject.Food;
+using MatProject.UI;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Snake
+namespace MatProject.Snake
 {
     public class SnakeController : MonoBehaviour
     {
@@ -16,7 +17,7 @@ namespace Snake
         private Vector2 lastHeadPosition;
         private List<Transform> snakeBodyList;
 
-        public UI.GameUIManager gameUIManager;
+        public GameUIManager gameUIManager;
         public GameObject gameOverObject;
         public GameObject gameUI;
         public GameObject speedPowerUp;

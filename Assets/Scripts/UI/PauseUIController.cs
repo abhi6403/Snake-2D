@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
+namespace MatProject.UI
 {
     public class PauseUIController : MonoBehaviour
     {
